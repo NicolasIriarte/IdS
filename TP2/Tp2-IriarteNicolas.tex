@@ -1,0 +1,188 @@
+\documentclass[
+  11pt, % The default document font size, options: 10pt, 11pt, 12pt
+  codirector, % Uncomment to add a codirector to the title page
+]{charter}
+\usepackage{enumitem}
+\usepackage{pdflscape}
+\usepackage{tikz}
+%\usetikzlibrary{shapes,arrows}
+%\usepackage{tikz}
+\usetikzlibrary{positioning, arrows.meta, backgrounds, fit}
+\usepackage{fontawesome5}
+\usepackage{tikz,tkz-tab}
+\usepackage{booktabs} % Para tablas más elegantes
+\usetikzlibrary{positioning, arrows.meta, backgrounds, fit}
+
+\usetikzlibrary{matrix,arrows, positioning,shadows,shadings,backgrounds, calc, shapes, tikzmark}
+
+\usepackage{fmtcount}
+
+\makeatletter
+\newcommand{\mytwodigits}[1]{\two@digits{#1}}
+\makeatother
+
+\newcounter{reqCounter}
+\setcounter{reqCounter}{0}
+
+
+% Completar los siguintes Campos
+\materia{Ingeniería de Software}
+\bimestre{tercer bimestre}
+\docentes{Alejandro Permingeat; Esteban	Volentini; Mariano Finochietto y Santiago Salamandri}
+\titulo{Emulador de microprocesador Leon3 para desarrollo de software satelital y simuladores}
+\posgrado{Carrera de Especialización en Sistemas Embebidos}
+\autor{Ing. Iriarte Fernandez, Nicolás Ezequiel
+  (NicolasIriarte95@gmail.com)}
+\director{Esp. Lic. Horro, Nicolás Eduardo}
+\pertenenciaDirector{INVAP.\@S.E.}
+\codirector{}
+\pertenenciaCoDirector{}
+\cliente{Pinedo, Matías}
+\empresaCliente{INVAP.\@SE}
+\fechaINICIO{16 de noviembre de 2023}		%Fecha de entrega
+\CODrequerimiento{NEMU-UC-}
+
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\newpage
+
+\section*{Registros de cambios}
+\label{sec:registro}
+
+
+\begin{table}[ht]
+	\label{tab:registro}
+	\centering
+	\begin{tabularx}{\linewidth}{@{}|c|X|c|@{}}
+		\hline
+		\rowcolor[HTML]{C0C0C0}
+		Revisión & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Detalles de los cambios realizados} & Fecha      \\ \hline
+		0      & Creación del documento                                 &\fechaInicioName \\ \hline
+		\hline
+
+	\end{tabularx}
+	\label{sec:cierre}
+\end{table}
+
+\pagebreak
+
+
+\section{Introducción a los casos de uso}
+\label{sec:org60390fa}
+
+El presente documento describe los casos de uso del emulador de microprocesador Leon3 para desarrollo de software satelital y simuladores. Se presentán tres casos de uso representativos al uso nominal del software propuesto:
+
+\begin{enumerate}
+\item Cargar software de vuelo.
+\item Inspeccionar registros y memorias.
+\item Validar programa introducido al emulador.
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\stepcounter{reqCounter}
+\begin{table}[h!]
+	\caption{Caso de Uso: Cargar software de vuelo [\CODrequerimiento\mytwodigits{\value{reqCounter}}]}
+	\centering
+	\begin{tabular}{ | m{4.0cm} | m{10cm} | }
+		\hline
+		\rowcolor{gray!50} % Coloring the first row
+		\textbf{Título} & \textbf{Descripción} \\ % \hhline{|=|=|}
+		\textbf{1. Nombre} & \textbf{Cargar software de vuelo} \\
+		1.1 código &\textbf{[\CODrequerimiento\mytwodigits{\value{reqCounter}}]} \\
+		1.2 Breve descripción & Capacidad de carga de software de vuelo arbitrario. \\
+		1.3 Actor principal & Desarrolladores de FSW y operadores. \\
+		1.4 Disparadores & Llamada a funcion por API. \\ \hline
+		\textbf{2. Flujo de eventos} &  \\
+		2.1 Flujo básico &
+		\begin{enumerate}
+			\item Se inicia una instancia de emulación.
+      \item Se llama a la funcion de API para la carga de binarios.
+      \item El software dado es cargado en la memoria emulada y se actualizan los registros correspondientes (Como contadores de programa).
+      \item La función retorna al usuario.
+		\end{enumerate} \\
+		2.2 Flujo alternativo &
+		\begin{itemize}
+			\item Ante un binario inválido, como podría ser por compilador inválido o arquitectura incorrecta, la función retornará un código de error.
+			\item Ante un archivo no existente, la función retornará un código de error.
+		\end{itemize} \\ \hline
+		\textbf{3. Requerimientos especiales} & N/A. \\ \hline
+		\textbf{4. Pre-Condiciones} & Se posee un binario para ejecutar dentro del emulador. \\ \hline
+		\textbf{5. Post-Condiciones} & Contador de programa actualizado y programa cargado en memoria. \\ \hline
+	\end{tabular}
+
+\end{table}
+
+\stepcounter{reqCounter}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[h!]
+	\caption{Caso de Uso: Inspeccionar registros y memorias [\CODrequerimiento\mytwodigits{\value{reqCounter}}]}
+	\centering
+	\begin{tabular}{ | m{4.0cm} | m{10cm} | }
+		\hline
+		\rowcolor{gray!50} % Coloring the first row
+		\textbf{Título} & \textbf{Descripción} \\ % \hhline{|=|=|}
+		\textbf{1. Nombre} & \textbf{Inspeccionar registros y memorias} \\
+		1.1 código &\textbf{[\CODrequerimiento\mytwodigits{\value{reqCounter}}]} \\
+		1.2 Breve descripción & Acceso a los registros y memorias emuladas, tanto para verificación de funcionamiento como para desarrollo de drivers. \\
+		1.3 Actor principal & Desarrolladores de FSW y Desarrolladores de modelos. \\
+		1.4 Disparadores & Llamada a funcion por API. \\ \hline
+		\textbf{2. Flujo de eventos} &  \\
+		2.1 Flujo básico &
+		\begin{enumerate}
+			\item Se inicia una instancia de emulación.
+      \item Se llama a la funcion de API para la carga de binarios.
+      \item Se llama a la funcion de API para volcar los registros a archivo CSV.
+      \item Alternativamente se puede llamar a la funcion de volcar memoria, especificando la posición initial, el tamaño a volcar y el archivo de salida para su analisis.
+		\end{enumerate} \\
+		2.2 Flujo alternativo &
+		\begin{itemize}
+			\item Ante una posición de memoria o memoria invalida la función retornará un código de error.
+		\end{itemize} \\ \hline
+		\textbf{3. Requerimientos especiales} & N/A. \\ \hline
+		\textbf{4. Pre-Condiciones} & Se posee un binario para ejecutar dentro del emulador. \\ \hline
+		\textbf{5. Post-Condiciones} & Se tendrá una instancia del emulador con un binario cargado y un archivo en formato CSV con los datos solicitados. \\ \hline
+	\end{tabular}
+
+\end{table}
+
+\stepcounter{reqCounter}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[h!]
+	\caption{Caso de Uso: Validar programa introducido al emulador [\CODrequerimiento\mytwodigits{\value{reqCounter}}]}
+	\centering
+	\begin{tabular}{ | m{4.0cm} | m{10cm} | }
+		\hline
+		\rowcolor{gray!50} % Coloring the first row
+		\textbf{Título} & \textbf{Descripción} \\ % \hhline{|=|=|}
+		\textbf{1. Nombre} & \textbf{Validar programa introducido al emulador} \\
+		1.1 código &\textbf{[\CODrequerimiento\mytwodigits{\value{reqCounter}}]} \\
+		1.2 Breve descripción & El emulador permitirá ejecutar y validar binarios producidos para el microprocesador. \\
+		1.3 Actor principal & Desarrolladores de FSW y Desarrolladores de modelos. \\
+		1.4 Disparadores & Llamada a funcion por API. \\ \hline
+		\textbf{2. Flujo de eventos} &  \\
+		2.1 Flujo básico &
+		\begin{enumerate}
+			\item Se inicia una instancia de emulación.
+      \item Se llama a la funcion de API para la carga de binarios.
+      \item Se analiza si el binario dado realiza las operaciones esperadas.
+		\end{enumerate} \\
+		2.2 Flujo alternativo & N/A. \\ \hline
+		\textbf{3. Requerimientos especiales} & N/A. \\ \hline
+		\textbf{4. Pre-Condiciones} & Se posee un binario para ejecutar dentro del emulador con un comportamiento conocido. \\ \hline
+		\textbf{5. Post-Condiciones} & Se tendrá una instancia del emulador con un binario cargado. \\ \hline
+	\end{tabular}
+
+\end{table}
+
+\stepcounter{reqCounter}
+
+
+\end{document}

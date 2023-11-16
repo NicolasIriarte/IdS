@@ -1,0 +1,28 @@
+@startuml
+
+left to right direction
+
+actor "Desarrollador de FSW" as fsw
+actor "Desarrollador de Modelos" as dev
+actor "Tester" as tester
+actor "Operador" as op
+
+package Emulador {
+  usecase "Cargar software de vuelo" as UC1
+  usecase "Inspeccionar registros y memorias" as UC2
+  usecase "Validar programa introducido al emulador" as UC3
+}
+
+fsw --> UC1 #line:red
+dev --> UC1 #line:green
+tester --> UC1 #line:blue
+op --> UC1 #line:orange
+
+fsw --> UC2 #line:red
+dev --> UC2 #line:green
+tester --> UC2 #line:blue
+
+fsw --> UC3 #line:red
+dev --> UC3 #line:green
+
+@enduml
