@@ -16,6 +16,7 @@
 \usetikzlibrary{matrix,arrows, positioning,shadows,shadings,backgrounds, calc, shapes, tikzmark}
 
 \usepackage{fmtcount}
+\usepackage{xurl}
 
 \makeatletter
 \newcommand{\mytwodigits}[1]{\two@digits{#1}}
@@ -114,8 +115,8 @@
 
 \begin{enumerate}
 \item API: Application Programming Interface (interfaz de programación de aplicaciones).
-\item FSW: Software de vuelo (Fly Software).
 \item CSV: Comma Separated Value.
+\item FSW: Software de vuelo (Fly Software).
 \item HW: Hardware.
 \item N/A: Not Applicable (no aplicable).
 \item SW: Software.
@@ -126,9 +127,22 @@
 
 \begin{enumerate}
 \item \href{https://github.com/NicolasIriarte/Plan-proyecto-final/blob/main/IriarteNicolas.pdf}{Plan de proyecto del trabajo final}.
+
+
+  \url{https://github.com/NicolasIriarte/Plan-proyecto-final/blob/main/IriarteNicolas.pdf}
+
 \item \href{https://www.gaisler.com/index.php/products/processors/leon3}{FRONTGRADE GAISLER}.
+
+\url{https://www.gaisler.com/index.php/products/processors/leon3}
+
+
 \item \href{https://en.wikipedia.org/wiki/Emulator}{Emuladores}.
+
+\url{https://en.wikipedia.org/wiki/Emulator}
+
 \item \href{https://ubuntu.com/}{Ubuntu}.
+
+\url{https://ubuntu.com/}
 
 \end{enumerate}
 
@@ -150,8 +164,8 @@ Este documento se realiza siguiendo el estándar IEEE Std. 830-1998.
 \end{enumerate}
 
 \begin{figure}[htpb]
-  \centering
   \label{fig:Components}
+  \centering
   \includegraphics[width=1\textwidth]{./Figuras/Components.png}
   \caption{Diagrama en bloques del sistema.}
 \end{figure}
@@ -247,13 +261,19 @@ N/A.
 \item[\textbf{[\CODrequerimiento\mytwodigits{\value{reqCounter}}]}]: El software deberá poder cargar los mismos binarios que el microprocesador fisico.
   \stepcounter{reqCounter}
 
-\item[\textbf{[\CODrequerimiento\mytwodigits{\value{reqCounter}}]}]: El software deberá emular el microprocesador en cada cyclo de reloj.
+\item[\textbf{[\CODrequerimiento\mytwodigits{\value{reqCounter}}]}]: El software deberá emular el microprocesador en cada ciclo de reloj.
   \stepcounter{reqCounter}
 
-\item[\textbf{[\CODrequerimiento\mytwodigits{\value{reqCounter}}]}]: El software deberá exponer y emular un mapa de memoria donde otros dispositivos, ajenos a este proyecto, puedrán leer y escribir.
+\item[\textbf{[\CODrequerimiento\mytwodigits{\value{reqCounter}}]}]: El software deberá exponer y emular un mapa de memoria donde otros dispositivos, ajenos a este proyecto, podrán leer y escribir.
   \stepcounter{reqCounter}
 
-\item[\textbf{[\CODrequerimiento\mytwodigits{\value{reqCounter}}]}]: El software deberá emular con presición un subset de instrucciones del microprocesador Leon3.
+\item[\textbf{[\CODrequerimiento\mytwodigits{\value{reqCounter}}]}]: El software deberá emular las instrucciones de lectura y escritura de memoria.
+  \stepcounter{reqCounter}
+
+\item[\textbf{[\CODrequerimiento\mytwodigits{\value{reqCounter}}]}]: El software deberá emular las instrucciones de suma, resta y multiplicación.
+  \stepcounter{reqCounter}
+
+\item[\textbf{[\CODrequerimiento\mytwodigits{\value{reqCounter}}]}]: El software deberá emular las de instrucciones de salto condicionales, tales como operaciones \textit{if} y \textit{jumps}.
   \stepcounter{reqCounter}
 
 \item[\textbf{[\CODrequerimiento\mytwodigits{\value{reqCounter}}]}]: El software deberá permitir pausas en la ejecución para inspeccionar y volcar registros y memorias emuladas.
@@ -263,13 +283,6 @@ N/A.
   \stepcounter{reqCounter}
 
 \item[\textbf{[\CODrequerimiento\mytwodigits{\value{reqCounter}}]}]: El software deberá permitir la ejecución de instrucciones en modo continuo.
-  \stepcounter{reqCounter}
-
-\item[\textbf{[\CODrequerimiento\mytwodigits{\value{reqCounter}}]}]: El software deberá poder ejecutarse sobre Ubuntu 22.04 LTS.
-  \stepcounter{reqCounter}
-
-
-\item[\textbf{[\CODrequerimiento\mytwodigits{\value{reqCounter}}]}]: El software deberá poder ejecutarse en multiples instancias simultaneamente.
   \stepcounter{reqCounter}
 
 \end{description}
@@ -302,12 +315,17 @@ N/A.
 
 N/A.
 
-Cualquier usuario con conocimientos de programación en C y el manual de usuario debería poder utilizar el software.
-
 \subsection{Otros requisitos}
 \label{sec:org31d2978}
 
 \begin{description}
+
+\item[\textbf{[\CODrequerimiento\mytwodigits{\value{reqCounter}}]}]: El software deberá poder ejecutarse sobre Ubuntu 22.04 LTS.
+  \stepcounter{reqCounter}
+
+
+\item[\textbf{[\CODrequerimiento\mytwodigits{\value{reqCounter}}]}]: El software deberá poder ejecutarse en multiples instancias simultaneamente.
+  \stepcounter{reqCounter}
 
 \item[\textbf{[\CODrequerimiento\mytwodigits{\value{reqCounter}}]}]: El software deberá estár acompañado de un manual de usuario en formato PDF.
   \stepcounter{reqCounter}
