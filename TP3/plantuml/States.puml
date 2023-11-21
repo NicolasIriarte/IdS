@@ -1,0 +1,16 @@
+@startuml
+
+[*] --> StandBy
+
+StandBy --> StandBy : Step()
+StandBy --> Executing : Run()
+StandBy --> Dumping : Dump()
+
+Executing --> StandBy : Hold()
+
+Dumping --> StandBy
+
+Executing --> [*] : Error
+StandBy --> [*] : Exit()
+
+@enduml

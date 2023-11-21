@@ -1,0 +1,26 @@
+@startuml
+
+[FileSystem] #fbdab0
+package "Private" {
+        [Registers] #ffc6c6
+        [MemoryModel] #b0c9fb
+        [Scheduler] #b0fbf9
+        [TimeKeeper] #fbb0f4
+        [CPU] #fbf9b0
+
+        [CPU] -up-> [Scheduler]
+        [CPU] -up-> [MemoryModel]
+        [CPU] -left-> [Registers]
+        [CPU] -> [TimeKeeper]
+
+        [Scheduler] -> [TimeKeeper]
+        [TimeKeeper] -> [Scheduler]
+
+}
+
+interface "C-API" as capi
+
+[CPU] <-> [FileSystem]
+[CPU] -> capi
+
+@enduml
