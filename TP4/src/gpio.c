@@ -21,17 +21,27 @@ SPDX-License-Identifier: MIT
 
 /* === Headers files inclusions =============================================================== */
 
-#include "main.h"
 #include "gpio.h"
-#include <stdio.h>
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
+#include <stdlib.h>
 
 /* === Macros definitions ====================================================================== */
 
-#define LED_ROJO_PORT 3
-#define LED_ROJO_BIT 4
+#ifndef GPIO_MAX_INSTANCES
+#define GPIO_MAX_INSTANCES 10
+#endif
 
 /* === Private data type declarations ========================================================== */
-
+//! @brief GPIO handler
+struct gpio_h
+{
+  uint8_t port;//!< Port of the GPIO
+  uint8_t bit;//!< Bit of the GPIO
+  bool output;//!< Output state of the GPIO
+  bool used;//!< Flag that indicates if the GPIO is used
+};
 /* === Private variable declarations =========================================================== */
 
 /* === Private function declarations =========================================================== */
@@ -42,17 +52,49 @@ SPDX-License-Identifier: MIT
 
 /* === Private function implementation ========================================================= */
 
-/* === Public function implementation ========================================================== */
-
-int main(void)
+/**
+ * @brief Allocate a GPIO instance.
+ *
+ * @details This function allocates a GPIO instance. The GPIO instance is
+ *          allocated on the heap or stack depending on the compilation flags.
+ *
+ * @return gpio_t Pointer to the GPIO instance.
+ */
+static gpio_t allocateInstance()
 {
-  gpio_t led_rojo = gpioCreate(LED_ROJO_PORT, LED_ROJO_BIT);
-  gpioSetOutput(led_rojo, true);
-  gpioSetState(led_rojo, true);
+  static struct gpio_h instances[GPIO_MAX_INSTANCES] = { 0 };
 
-  while (1) {}
-
-  return 0;
+  gpio_t result = NULL;
+  for (int index = 0; index < GPIO_MAX_INSTANCES; index++) {
+    if (!instances[index].used) {
+      result = &instances[index];
+      result->used = true;
+      break;
+    }
+  }
+  return result;
 }
 
+/* === Public function implementation ========================================================== */
+
+gpio_t gpioCreate(uint8_t port, uint8_t bit)
+{
+#ifdef USE_DYNAMIC_MEM
+  gpio_t self = malloc(sizeof(struct gpio_h));
+#else
+  gpio_t self = allocateInstance();
+#endif
+  if (self) {
+    self->port = port;
+    self->bit = bit;
+    self->output = false;
+  }
+  return self;
+}
+
+void gpioSetOutput(gpio_t self, bool output) { self->output = output; }
+
+void gpioSetState(gpio_t self, bool state) { self->output = state; }
+
+bool gpioGetState(gpio_t self) { return self->output; }
 /* === End of documentation ==================================================================== */
